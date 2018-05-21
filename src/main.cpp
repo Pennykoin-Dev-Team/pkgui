@@ -17,6 +17,7 @@
 #include "CurrencyAdapter.h"
 #include "LoggerAdapter.h"
 #include "NodeAdapter.h"
+#include "update.h"
 #include "Settings.h"
 #include "SignalHandler.h"
 #include "WalletAdapter.h"
@@ -84,6 +85,9 @@ int main(int argc, char* argv[]) {
   }
 
   splash->finish(&MainWindow::instance());
+      Updater d;
+      d.checkForUpdate();
+      
   MainWindow::instance().show();
   WalletAdapter::instance().open("");
   QObject::connect(QApplication::instance(), &QApplication::aboutToQuit, []() {

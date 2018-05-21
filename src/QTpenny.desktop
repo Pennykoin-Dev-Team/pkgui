@@ -1,10 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Royalties Wallet
-Comment=Royalties wallet
-Exec=royaltieswallet
+Name=QTPenny
+Comment=Pennykoin wallet
+Exec=QTPenny
 Terminal=false
 Type=Application
 Icon=royalties
-MimeType=x-scheme-handler/royaltieswallet;
+MimeType=x-scheme-handler/*.wallet;
 Categories=Office;Finance;
