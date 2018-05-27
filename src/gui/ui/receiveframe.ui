@@ -127,13 +127,6 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="WalletGui::QRLabel" name="m_qrLabel">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
          <spacer name="horizontalSpacer_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -166,13 +159,7 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>WalletGui::QRLabel</class>
-   <extends>QLabel</extends>
-   <header>gui/QRLabel.h</header>
-  </customwidget>
- </customwidgets>
+
  <resources>
   <include location="../../resources.qrc"/>
  </resources>

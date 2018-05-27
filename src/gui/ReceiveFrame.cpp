@@ -43,13 +43,13 @@ void ReceiveFrame::walletOpened(int _error) {
     std::string(reinterpret_cast<char*>(&keys), sizeof(keys))));
 
   m_ui->m_keyEdit->setText(privateKeys);
-  m_ui->m_qrLabel->showQRCode(privateKeys);
+
 }
 
 void ReceiveFrame::walletClosed() {
   m_ui->m_addressEdit->clear();
   m_ui->m_keyEdit->clear();
-  m_ui->m_qrLabel->clear();
+
 }
 
 void ReceiveFrame::copyAddress() {
