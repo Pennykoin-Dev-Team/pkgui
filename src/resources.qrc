@@ -1,0 +1,53 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="tx-mined">icons/tx_mined.png</file>
+        <file alias="tx-input">icons/tx_input.png</file>
+        <file alias="tx-output">icons/tx_output.png</file>
+        <file alias="tx-inout">icons/tx_inout.png</file>
+        <file alias="unconfirmed">icons/unconfirmed.png</file>
+        <file alias="tx-deposit">icons/tx_deposit.png</file>
+        <file>pennykoin.ico</file>
+        <file>images/lockw.png</file>
+        <file>images/pennykoin.icns</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file alias="splash">images/splash.png</file>
+        <file alias="clock">images/clock.gif</file>
+        <file>images/apple-touch-icon.png</file>
+        <file>images/banking-messaging.jpg</file>
+        <file>images/banking-savings.jpg</file>
+        <file>images/banking-transactions.jpg</file>
+        <file>images/head.png</file>
+        <file>images/import_guikey.png</file>
+        <file>images/import_viewkey.png</file>
+        <file>images/importseed.png</file>
+        <file>images/newwallet.png</file>
+        <file>images/openwallet.png</file>
+        <file>images/pk-payments.jpg</file>
+        <file>images/savings.png</file>
+        <file>images/simple_messaging.png</file>
+        <file>images/transactions.png</file>
+        <file>images/copy.png</file>
+        <file>images/contact.png</file>
+        <file>images/paste.png</file>
+        <file>images/minus.png</file>
+        <file>images/unlockw.png</file>
+        <file>images/bgmain.jpg</file>
+        <file>images/logomain.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>icons/tx_input.png</file>
+        <file>icons/tx_investment.png</file>
+        <file>fonts/Poppins-Regular.ttf</file>
+        <file>icons/qrcode-scan.png</file>
+        <file>icons/close.png</file>
+        <file>icons/minimize.png</file>
+        <file>icons/maximize.png</file>
+        <file>icons/clock_load.png</file>
+        <file>icons/transaction.png</file>
+        <file>icons/tx_deposit.png</file>
+        <file>icons/tx_inout.png</file>
+        <file>icons/tx_output.png</file>
+        <file>icons/unconfirmed.png</file>
+    </qresource>
+</RCC>

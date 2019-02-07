@@ -1,0 +1,5 @@
+
+set(CN_PROJECT_NAME "pkgui")
+set(CN_CURRENCY_DISPLAY_NAME "PennyKoin")
+set(CN_CURRENCY_TICKER "PK")
+set(CN_VERSION 3.2)
