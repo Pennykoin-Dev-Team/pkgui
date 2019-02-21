@@ -33,8 +33,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>840</width>
-        <height>412</height>
+        <width>846</width>
+        <height>454</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="m_send_frame_layout">
@@ -72,24 +72,43 @@
      <property name="topMargin">
       <number>5</number>
      </property>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="m_feeSpin">
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="minimum">
+        <double>0.001000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>999999999999999.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.010000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.001000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Fee:</string>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string> </string>
+        <string/>
        </property>
       </widget>
-</item>
-     <item row="1" column="1" colspan="3">
+     </item>
+     <item row="1" column="1" colspan="4">
       <widget class="QLineEdit" name="m_paymentIdEdit"/>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>PaymentID:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
+     <item row="2" column="4">
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -104,6 +123,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>PaymentID:</string>
+       </property>
+      </widget>
      </item>
      <item row="2" column="1">
       <widget class="QSlider" name="m_mixinSlider">
@@ -136,7 +162,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
+     <item row="2" column="3">
       <widget class="QLineEdit" name="m_mixinEdit">
        <property name="maximumSize">
         <size>
@@ -158,29 +184,44 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Fee:</string>
+          <item row="1" column="6">
+      <widget class="QDoubleSpinBox" name="m_donateSpin">
+       <property name="minimumSize">
+        <size>
+         <width>1</width>
+         <height>1</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>1</width>
+         <height>1</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>1</width>
+         <height>1</height>
+        </size>
+       </property>
+       <property name="decimals">
+        <number>3</number>
+       </property>
+       <property name="minimum">
+        <double>500.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>500.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>100.000000000000000</double>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QDoubleSpinBox" name="m_feeSpin">
-       <property name="decimals">
-        <number>8</number>
-       </property>
-       <property name="minimum">
-        <double>0.001000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>999999999999999.000000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>0.010000000000000</double>
-       </property>
-       <property name="value">
-        <double>0.001000000000000</double>
+     <item row="2" column="2">
+      <widget class="QCheckBox" name="donateCheckBox">
+       <property name="text">
+        <string>Donate 500 PK to dev fund</string>
        </property>
       </widget>
      </item>

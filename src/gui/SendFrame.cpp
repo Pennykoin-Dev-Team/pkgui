@@ -1,9 +1,3 @@
-// Copyright (c) 2011-2017 The Cryptonote developers
-// Copyright (c) 2014-2017 XDN developers
-// Copyright (c) 2016-2017 BXC developers
-// Copyright (c) 2017 Royalties developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "AddressBookModel.h"
 #include "CurrencyAdapter.h"
@@ -33,6 +27,7 @@ SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame
 
   m_ui->m_tickerLabel->setText(CurrencyAdapter::instance().getCurrencyTicker().toUpper());
   m_ui->m_feeSpin->setSuffix(" " + CurrencyAdapter::instance().getCurrencyTicker().toUpper());
+    m_ui->m_donateSpin->setSuffix(" " + CurrencyAdapter::instance().getCurrencyTicker().toUpper());
   m_ui->m_feeSpin->setMinimum(CurrencyAdapter::instance().formatAmount(CurrencyAdapter::instance().getMinimumFee()).toDouble());
 }
 
@@ -100,6 +95,14 @@ void SendFrame::sendClicked() {
     walletTransfer.amount = amount;
     walletTransfers.push_back(walletTransfer);
     QString label = transfer->getLabel();
+      if (m_ui->donateCheckBox->isChecked()) {
+      CryptoNote::WalletLegacyTransfer walletTransfer;
+      QString donate_address = "PkQyEgdjkjbGssVere1rLdcBFzxMromXz3hcvyPvdHoHRF7D6BQXodBc9S7M9zgqA1EtjiA8B96N1FGpfr3kZ5bn1KYuHHkWJ";
+      walletTransfer.address = donate_address.toStdString();
+      walletTransfer.amount = CurrencyAdapter::instance().parseAmount(m_ui->m_donateSpin->cleanText());
+      walletTransfers.push_back(walletTransfer);
+  }
+
     if (!label.isEmpty()) {
       AddressBookModel::instance().addAddress(label, address);
     }
