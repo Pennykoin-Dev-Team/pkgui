@@ -32,7 +32,7 @@ public:
 private:
   QScopedPointer<Ui::SendFrame> m_ui;
   QList<TransferFrame*> m_transfers;
-
+ void insertPaymentID(QString _paymentid);
   void sendTransactionCompleted(CryptoNote::TransactionId _transactionId, bool _error, const QString& _errorText);
   void walletActualBalanceUpdated(quint64 _balance);
   void updateFee();
@@ -40,6 +40,7 @@ private:
 
   Q_SLOT void addRecipientClicked();
   Q_SLOT void clearAllClicked();
+   Q_SLOT void generatePaymentIdClicked();
   Q_SLOT void mixinValueChanged(int _value);
   Q_SLOT void sendClicked();
 };

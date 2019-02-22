@@ -9,7 +9,8 @@
 #include "CryptoNoteWalletConfig.h"
 #include "LoggerAdapter.h"
 #include "Settings.h"
-
+#include <crypto/crypto.h>
+#include <Common/StringTools.h>
 namespace WalletGui {
 
 CurrencyAdapter& CurrencyAdapter::instance() {
@@ -134,4 +135,10 @@ bool CurrencyAdapter::validateAddress(const QString& _address) const {
   return m_currency.parseAccountAddressString(_address.toStdString(), internalAddress);
 }
 
+
+QString CurrencyAdapter::generatePaymentId() const {
+  Crypto::Hash payment_id;
+  payment_id = Crypto::rand<Crypto::Hash>();
+  return QString::fromStdString(Common::podToHex(payment_id));
+}
 }

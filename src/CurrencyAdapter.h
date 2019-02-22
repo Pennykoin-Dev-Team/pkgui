@@ -22,6 +22,7 @@ public:
   QString getCurrencyDisplayName() const;
   QString getCurrencyName() const;
   QString getCurrencyTicker() const;
+   QString generatePaymentId() const;
   quint64 calculateInterest(quint64 _amount, quint32 _term) const;
   quint64 getMinimumFee() const;
   quint64 getAddressPrefix() const;

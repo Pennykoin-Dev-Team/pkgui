@@ -26,8 +26,7 @@ int main(int argc, char* argv[]) {
   app.setApplicationName("Penny GUI");
   app.setApplicationVersion(Settings::instance().getVersion());
   app.setQuitOnLastWindowClosed(false);
-
-#ifndef Q_OS_MAC
+ #ifndef Q_OS_MAC
   QApplication::setStyle(QStyleFactory::create("Fusion"));
 #endif
 

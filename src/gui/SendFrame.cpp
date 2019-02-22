@@ -147,7 +147,9 @@ void SendFrame::sendTransactionCompleted(CryptoNote::TransactionId _id, bool _er
 void SendFrame::walletActualBalanceUpdated(quint64 _balance) {
   m_ui->m_balanceLabel->setText(CurrencyAdapter::instance().formatAmount(_balance));
 }
-
+void SendFrame::insertPaymentID(QString _paymentid) {
+    m_ui->m_paymentIdEdit->setText(_paymentid);
+}
 void SendFrame::updateFee() {
   quint64 commentsFee = 0;
   Q_FOREACH (const auto& transfer, m_transfers) {
@@ -166,5 +168,7 @@ bool SendFrame::isValidPaymentId(const QByteArray& _paymentIdString) {
   QByteArray paymentId = QByteArray::fromHex(_paymentIdString);
   return (paymentId.size() == sizeof(Crypto::Hash)) && (_paymentIdString.toUpper() == paymentId.toHex().toUpper());
 }
-
+void SendFrame::generatePaymentIdClicked() {
+  SendFrame::insertPaymentID(CurrencyAdapter::instance().generatePaymentId());
+}
 }
