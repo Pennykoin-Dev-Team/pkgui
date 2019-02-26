@@ -1,0 +1,3 @@
+changes.txt
+Rebase to OG wallet
+revamped Icon set for appearance
