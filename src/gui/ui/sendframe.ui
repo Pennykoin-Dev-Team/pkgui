@@ -34,7 +34,7 @@
         <x>0</x>
         <y>0</y>
         <width>846</width>
-        <height>454</height>
+        <height>416</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="m_send_frame_layout">
@@ -72,119 +72,7 @@
      <property name="topMargin">
       <number>5</number>
      </property>
-     <item row="0" column="1">
-      <widget class="QDoubleSpinBox" name="m_feeSpin">
-       <property name="decimals">
-        <number>2</number>
-       </property>
-       <property name="minimum">
-        <double>0.001000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>999999999999999.000000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>0.010000000000000</double>
-       </property>
-       <property name="value">
-        <double>0.001000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Fee:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1" colspan="4">
-      <widget class="QLineEdit" name="m_paymentIdEdit"/>
-     </item>
-     <item row="2" column="4">
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>298</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>PaymentID:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QSlider" name="m_mixinSlider">
-       <property name="maximumSize">
-        <size>
-         <width>1</width>
-         <height>1</height>
-        </size>
-       </property>
-       <property name="maximum">
-        <number>10</number>
-       </property>
-       <property name="pageStep">
-        <number>1</number>
-       </property>
-       <property name="value">
-        <number>7</number>
-       </property>
-       <property name="tracking">
-        <bool>false</bool>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="tickPosition">
-        <enum>QSlider::TicksBothSides</enum>
-       </property>
-       <property name="tickInterval">
-        <number>1</number>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
-      <widget class="QLineEdit" name="m_mixinEdit">
-       <property name="maximumSize">
-        <size>
-         <width>1</width>
-         <height>1</height>
-        </size>
-       </property>
-       <property name="text">
-        <string notr="true"/>
-       </property>
-       <property name="maxLength">
-        <number>5</number>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-          <item row="1" column="6">
+     <item row="1" column="6">
       <widget class="QDoubleSpinBox" name="m_donateSpin">
        <property name="minimumSize">
         <size>
@@ -218,10 +106,132 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="m_feeSpin">
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="minimum">
+        <double>1</double>
+       </property>
+       <property name="maximum">
+        <double>999999999999999.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.010000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>298</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>PaymentID:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Fee:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="4">
+      <widget class="QLineEdit" name="m_paymentIdEdit"/>
+     </item>
+     <item row="3" column="3">
+      <widget class="QLineEdit" name="m_mixinEdit">
+       <property name="maximumSize">
+        <size>
+         <width>1</width>
+         <height>1</height>
+        </size>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="maxLength">
+        <number>5</number>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QSlider" name="m_mixinSlider">
+       <property name="maximumSize">
+        <size>
+         <width>1</width>
+         <height>1</height>
+        </size>
+       </property>
+       <property name="maximum">
+        <number>10</number>
+       </property>
+       <property name="pageStep">
+        <number>1</number>
+       </property>
+       <property name="value">
+        <number>7</number>
+       </property>
+       <property name="tracking">
+        <bool>false</bool>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="tickPosition">
+        <enum>QSlider::TicksBothSides</enum>
+       </property>
+       <property name="tickInterval">
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../resources.qrc">:/icons/tx-mined</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
       <widget class="QCheckBox" name="donateCheckBox">
        <property name="text">
-        <string>Donate 500 PK to dev fund</string>
+        <string>500 PK to dev fund</string>
        </property>
       </widget>
      </item>
@@ -316,7 +326,7 @@
   <tabstop>m_mixinSlider</tabstop>
   <tabstop>m_sendButton</tabstop>
   <tabstop>m_clearAllButton</tabstop>
-   <tabstop>m_generatePaymentIdButton</tabstop>
+  <tabstop>m_generatePaymentIdButton</tabstop>
   <tabstop>m_addRecipientButton</tabstop>
   <tabstop>m_transfersScrollarea</tabstop>
   <tabstop>m_mixinEdit</tabstop>
