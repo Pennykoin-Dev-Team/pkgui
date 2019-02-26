@@ -24,5 +24,7 @@ mkdir build && cd build && cmake .. && make
        cmake.exe -DBOOST_ROOT=C:\local\boost_1_67_0 -DBOOST_LIBRARYDIR=C:\local\boost_1_67_0\stage\lib -G "Visual Studio 12 Win64" .. 
         
  in it, then open MAKE ALL project in VS2013 & build as release. 
+ 
+ 
      
 
