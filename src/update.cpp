@@ -88,7 +88,7 @@ void Updater::replyFinished (QNetworkReply *reply)
          if (ourVersion < remoteVersion) {
 
              if (QMessageBox::warning(nullptr, QObject::tr("New version available"), QObject::tr("There is an update available.\nDwonload or risk blockchain corruption"), QMessageBox::Ok, QMessageBox::Cancel) == QMessageBox::Ok) {
-                 QString link = "http://pennykoin.com/downloads";
+                 QString link = "https://github.com/Pennykoin-Dev-Team/pkgui/releases";
                  QDesktopServices::openUrl(QUrl(link));
              }
 
