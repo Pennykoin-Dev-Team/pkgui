@@ -1,3 +1,5 @@
 changes.txt
 Rebase to OG wallet
 revamped Icon set for appearance
+wording & lots of UI changes
+receive screen wasn't really receiving anything, renamed keys & displays all addressess & keys ( mnemonics pretty soon, my bad)

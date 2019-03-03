@@ -63,6 +63,7 @@ void SendFrame::addRecipientClicked() {
         m_transfers[0]->disableRemoveButton(true);
       }
 
+
       updateFee();
     });
 }
@@ -103,14 +104,6 @@ void SendFrame::sendClicked() {
       walletTransfers.push_back(walletTransfer);
   }
 
-    if (paymentIdString.toStdString().length() < 64) {
-      if (QMessageBox::warning(&MainWindow::instance(), tr("Send Confirmation"),
-        tr("There is no payment ID. Do you want to continue?"), 
-        QMessageBox::Cancel, 
-        QMessageBox::Ok) != QMessageBox::Ok) {
-        return;
-      }
-    }
 
     if (!label.isEmpty()) {
       AddressBookModel::instance().addAddress(label, address);

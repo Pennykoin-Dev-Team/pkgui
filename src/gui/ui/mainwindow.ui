@@ -139,8 +139,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1014</width>
-     <height>22</height>
+     <width>896</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -214,7 +214,10 @@
      <normaloff>:/icons/overview</normaloff>:/icons/overview</iconset>
    </property>
    <property name="text">
-    <string>Overview</string>
+    <string>Home</string>
+   </property>
+   <property name="toolTip">
+    <string>The home screen of Pennykoin Purse</string>
    </property>
   </action>
   <action name="m_sendAction">
@@ -231,6 +234,9 @@
    <property name="text">
     <string>Send</string>
    </property>
+   <property name="toolTip">
+    <string>Send Pk to an address</string>
+   </property>
   </action>
   <action name="m_receiveAction">
    <property name="checkable">
@@ -244,7 +250,10 @@
      <normaloff>:/icons/receive</normaloff>:/icons/receive</iconset>
    </property>
    <property name="text">
-    <string>Receive</string>
+    <string>Keys</string>
+   </property>
+   <property name="toolTip">
+    <string>Show your public/private keys</string>
    </property>
   </action>
   <action name="m_transactionsAction">
@@ -260,6 +269,9 @@
    </property>
    <property name="text">
     <string>Transactions</string>
+   </property>
+   <property name="toolTip">
+    <string>   Hisstory of all transactions made by this address</string>
    </property>
   </action>
   <action name="m_exitAction">
@@ -394,13 +406,16 @@
    <property name="text">
     <string>Send message</string>
    </property>
+   <property name="toolTip">
+    <string>Send a message to an address</string>
+   </property>
   </action>
   <action name="m_importKeyAction">
    <property name="text">
     <string>Import private key</string>
    </property>
   </action>
-    <action name="m_depositsAction">
+  <action name="m_depositsAction">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -409,7 +424,7 @@
      <normaloff>:/icons/deposits</normaloff>:/icons/deposits</iconset>
    </property>
    <property name="text">
-    <string>Deposits</string>
+    <string>Savings</string>
    </property>
   </action>
   <action name="m_resetAction">
@@ -464,7 +479,7 @@
    <header>gui/SendMessageFrame.h</header>
    <container>1</container>
   </customwidget>
-   <customwidget>
+  <customwidget>
    <class>WalletGui::DepositsFrame</class>
    <extends>QFrame</extends>
    <header>gui/DepositsFrame.h</header>

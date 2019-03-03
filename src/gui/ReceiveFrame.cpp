@@ -60,14 +60,8 @@ void ReceiveFrame::copyKey() {
   QApplication::clipboard()->setText(m_ui->m_keyEdit->text());
 }
 
-void ReceiveFrame::showKeyClicked() {
-  if (!WalletAdapter::instance().isOpen()) {
-    m_ui->m_showKeyButton->setChecked(false);
-    return;
-  }
 
-  m_ui->m_showKeyButton->setText(m_ui->m_showKeyButton->isChecked() ? tr("Hide private keys") : tr("Show private keys"));
-  m_ui->m_keyFrame->setVisible(m_ui->m_showKeyButton->isChecked());
-}
+
+
 
 }
