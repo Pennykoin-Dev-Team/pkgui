@@ -12,8 +12,8 @@
 
 namespace WalletGui {
 
-Q_DECL_CONSTEXPR int DEFAULT_MIXIN = 7;
-Q_DECL_CONSTEXPR quint64 COMMENT_CHAR_PRICE = 1;
+Q_DECL_CONSTEXPR int DEFAULT_MIXIN = 5;
+Q_DECL_CONSTEXPR quint64 COMMENT_CHAR_PRICE = .01;
 
 SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame) {
   m_ui->setupUi(this);
@@ -103,15 +103,19 @@ void SendFrame::sendClicked() {
       walletTransfers.push_back(walletTransfer);
   }
 
+    if (paymentIdString.toStdString().length() < 64) {
+      if (QMessageBox::warning(&MainWindow::instance(), tr("Send Confirmation"),
+        tr("There is no payment ID. Do you want to continue?"), 
+        QMessageBox::Cancel, 
+        QMessageBox::Ok) != QMessageBox::Ok) {
+        return;
+      }
+    }
+
     if (!label.isEmpty()) {
       AddressBookModel::instance().addAddress(label, address);
     }
-  if (QMessageBox::warning(&MainWindow::instance(), tr("Send Confirmation"),
-    tr("You are sending XXXXX Pk. Do you wish to continue?"), 
-    QMessageBox::Cancel, 
-    QMessageBox::Ok) != QMessageBox::Ok) {
-    return;
-  }
+
     QString comment = transfer->getComment();
     if (!comment.isEmpty()) {
       walletMessages.append(CryptoNote::TransactionMessage{comment.toStdString(), address.toStdString()});
