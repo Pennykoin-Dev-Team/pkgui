@@ -10,7 +10,7 @@ WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 OUTPUT_VARIABLE GIT_REVISION)
 
 set(CRYPTONOTE_LIB cryptonote)
-set (CMAKE_PREFIX_PATH "C://Qt//Qt5.8.0//5.8//msvc2015_64")
+set (CMAKE_PREFIX_PATH "C://Qt//Qt5.7.1//5.7//msvc2015_64")
 
 include_directories(${CMAKE_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -270,12 +270,13 @@ target_link_libraries(${PROJECT_NAME} Qt5::Gui)
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::Network)
 
+
 # Installation
 
 set(CPACK_PACKAGE_NAME ${CN_PROJECT_NAME})
 set(CPACK_PACKAGE_VERSION ${CN_VERSION})
-set(CPACK_PACKAGE_VENDOR "The Circle Foundation")
-set(CPACK_PACKAGE_CONTACT "https://github.com/TheCircleFoundation/")
+set(CPACK_PACKAGE_VENDOR "Pennykoin")
+set(CPACK_PACKAGE_CONTACT "https://pennykoin.com/")
 set(CPACK_STRIP_FILES ON)
 if (APPLE)
     set(CPACK_GENERATOR DragNDrop)
@@ -283,62 +284,31 @@ if (APPLE)
     set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}.-${VERSION_RELEASE}")
 elseif (UNIX)
     install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
-    install(FILES src/concealwallet.desktop DESTINATION share/applications)
-    install(FILES src/images/cryptonote.png DESTINATION share/pixmaps RENAME conceal.png)
-    install(FILES copyright DESTINATION share/doc/concealwallet)
+    install(FILES src/QTpenny.desktop DESTINATION share/applications)
+    install(FILES src/images/cryptonote.png DESTINATION share/pixmaps RENAME pennykoin.png)
 
-  SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-  SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-  SET(CPACK_PACKAGE_ICON src/images/cryptonote.png)
-  
+
+	SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+	SET(CPACK_PACKAGE_ICON src/images/cryptonote.png)
+	
     if (NOT PACKRPM)
         set(CPACK_GENERATOR DEB)
         set(CPACK_DEBIAN_PACKAGE_NAME ${CPACK_PACKAGE_NAME})
         set(CPACK_SYSTEM_NAME amd64)
-        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_VENDOR} <krypt0x@gmx.com>")
+        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_VENDOR} <admin@pennykoin.com>")
         set(CPACK_DEBIAN_PACKAGE_SECTION Office)
         set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-        set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Conceal GUI Wallet
- Conceal is a decentrilized privacy protected peer-to-peer
- cryptocurrency and untraceable encrypted messaging system. Conceal is
- open-source; its design is public, nobody owns or controls Conceal and
- everyone can take part.
- .
- Features of the Conceal wallet listed bellow:
- * Classic Bitcoin alike appearance in CryptoNote based cryptocurrency,
-   made with QT and open-source.
- * Instant anonymous CCX transfers and transfers notifications
- * Instant untraceable encrypted messages transfers and notifications
- * Safe and secure, full Conceal network node in wallet, fast network
-   syncronization.
- * Wallet encryption
- * Fast and hardware optimized
- * Open and easy. Private keys can be exported into other clients.")
+        set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "KoinPurse is a GUI wallet for pennykoin cryptocurrency.")
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_DEBIAN_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VERSION_RELEASE}.${CPACK_SYSTEM_NAME}")
-  else ()
+	else ()
         set(CPACK_GENERATOR RPM)
         set(CPACK_SYSTEM_NAME x86_64)
         set(CPACK_RPM_PACKAGE_RELEASE ${VERSION_RELEASE})
         set(CPACK_RPM_PACKAGE_LICENSE "GPL3")
         set(CPACK_RPM_PACKAGE_GROUP Office)
         set(CPACK_RPM_PACKAGE_REQUIRES "qt5-qtbase >= 5.3.2, qt5-qtbase-gui >= 5.3.2")
-        set(CPACK_RPM_PACKAGE_SUMMARY "Conceal GUI Wallet")
-        set(CPACK_RPM_PACKAGE_DESCRIPTION "Open-source Conceal GUI wallet
- Conceal is a decentrilized privacy protected peer-to-peer
- cryptocurrency and untraceable encrypted messaging system. Conceal is
- open-source; its design is public, nobody owns or controls Conceal and
- everyone can take part.
-
- Features of the Conceal wallet listed bellow:
- *Classic Bitcoin alike appearance in CryptoNote based cryptocurrency,
-    made with QT and open-source.
- *Instant anonymous Conceal transfers and transfers notifications
- *Instant untraceable encrypted messages transfers and notifications
- *Safe and secure, full Conceal network node in wallet, fast network
-    syncronization.
- *Wallet encryption
- *Fast and hardware optimized
- *Open and easy. Private keys can be exported into other clients.")
+        set(CPACK_RPM_PACKAGE_SUMMARY "Pennykoin GUI wallet")
+        set(CPACK_RPM_PACKAGE_DESCRIPTION "QTPenny is the GUI wallet for pennykoin cryptocurrency.")
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VERSION_RELEASE}.${CPACK_SYSTEM_NAME}")
     endif ()
 elseif (WIN32)

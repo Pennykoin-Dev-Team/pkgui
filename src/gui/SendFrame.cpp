@@ -104,7 +104,6 @@ void SendFrame::sendClicked() {
       walletTransfers.push_back(walletTransfer);
   }
 
-
     if (!label.isEmpty()) {
       AddressBookModel::instance().addAddress(label, address);
     }
