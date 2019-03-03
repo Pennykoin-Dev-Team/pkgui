@@ -14,7 +14,7 @@
 #include "WalletAdapter.h"
 #include "WalletEvents.h"
 #include "NodeAdapter.h"
-
+#include <QMessageBox>
 #include "ui_depositsframe.h"
 
 namespace WalletGui {
@@ -109,6 +109,13 @@ void DepositsFrame::depositClicked() {
   }
 
   quint32 term = m_ui->m_timeSpin->value();
+    /* warn the user */
+  if (QMessageBox::warning(&MainWindow::instance(), tr("Deposit Confirmation"),
+    tr("Once a deposit is made, the funds CANNOT be withdrawn for 3 months (43200 blocks). Do you wish to continue?"), 
+    QMessageBox::Cancel, 
+    QMessageBox::Ok) != QMessageBox::Ok) {
+    return;
+  }
   WalletAdapter::instance().deposit(term, amount, CurrencyAdapter::instance().getMinimumFee(), 0);
 }
 

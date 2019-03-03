@@ -1,0 +1,7 @@
+rebased to orig wallet xdn port
+modified appearance & features
+added donation box
+added paymentID generator
+add update nag
+more graphics
+deposit confirmation

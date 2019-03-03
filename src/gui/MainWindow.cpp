@@ -30,7 +30,7 @@
 #include "Settings.h"
 #include "WalletAdapter.h"
 #include "WalletEvents.h"
-
+#include <QMessageBox>
 #include "ui_mainwindow.h"
 
 namespace WalletGui {
@@ -342,7 +342,12 @@ void MainWindow::encryptWallet() {
       if (password.isEmpty()) {
         return;
       }
-
+        if (QMessageBox::warning(&MainWindow::instance(), tr("Password Confirmation"),
+    tr("You are changing the password to THIS wallet. Do you wish to continue?"), 
+    QMessageBox::Cancel, 
+    QMessageBox::Ok) != QMessageBox::Ok) {
+    return;
+  }
       encryptedFlagChanged(WalletAdapter::instance().changePassword("", password));
     }
   }

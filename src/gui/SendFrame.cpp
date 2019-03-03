@@ -7,7 +7,7 @@
 #include "TransferFrame.h"
 #include "WalletAdapter.h"
 #include "WalletEvents.h"
-
+#include <QMessageBox>
 #include "ui_sendframe.h"
 
 namespace WalletGui {
@@ -106,7 +106,12 @@ void SendFrame::sendClicked() {
     if (!label.isEmpty()) {
       AddressBookModel::instance().addAddress(label, address);
     }
-
+  if (QMessageBox::warning(&MainWindow::instance(), tr("Send Confirmation"),
+    tr("You are sending XXXXX Pk. Do you wish to continue?"), 
+    QMessageBox::Cancel, 
+    QMessageBox::Ok) != QMessageBox::Ok) {
+    return;
+  }
     QString comment = transfer->getComment();
     if (!comment.isEmpty()) {
       walletMessages.append(CryptoNote::TransactionMessage{comment.toStdString(), address.toStdString()});

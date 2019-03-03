@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <QSplashScreen>
 #include <QStyleFactory>
-
+#include <QGuiApplication>
 #include "CommandLineParser.h"
 #include "CurrencyAdapter.h"
 #include "LoggerAdapter.h"
@@ -30,6 +30,7 @@ int main(int argc, char* argv[]) {
   QApplication::setStyle(QStyleFactory::create("Fusion"));
 #endif
 
+QGuiApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
   CommandLineParser cmdLineParser(nullptr);
   Settings::instance().setCommandLineParser(&cmdLineParser);
   bool cmdLineParseResult = cmdLineParser.process(app.arguments());
@@ -63,19 +64,19 @@ int main(int argc, char* argv[]) {
   SignalHandler::instance().init();
   QObject::connect(&SignalHandler::instance(), &SignalHandler::quitSignal, &app, &QApplication::quit);
 
-  QSplashScreen* splash = new QSplashScreen(QPixmap(":images/splash"), Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint);
+  QSplashScreen* splash = new QSplashScreen(QPixmap(":images/splash"), /*Qt::WindowStaysOnTopHint |*/ Qt::X11BypassWindowManagerHint);
   if (!splash->isVisible()) {
     splash->show();
   }
 
-  splash->showMessage(QObject::tr("Connecting to Pennykoin network .."), Qt::AlignLeft | Qt::AlignBottom, Qt::black);
+  splash->showMessage(QObject::tr("Accessing network."), Qt::AlignLeft | Qt::AlignBottom, Qt::black);
+
   app.processEvents();
   qRegisterMetaType<CryptoNote::TransactionId>("CryptoNote::TransactionId");
   qRegisterMetaType<quintptr>("quintptr");
   if (!NodeAdapter::instance().init()) {
     return 0;
   }
-
   splash->finish(&MainWindow::instance());
       Updater d;
       d.checkForUpdate();
