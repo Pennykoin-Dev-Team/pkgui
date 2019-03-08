@@ -7,13 +7,13 @@
 #include "TransferFrame.h"
 #include "WalletAdapter.h"
 #include "WalletEvents.h"
-
+#include <QMessageBox>
 #include "ui_sendframe.h"
 
 namespace WalletGui {
 
-Q_DECL_CONSTEXPR int DEFAULT_MIXIN = 7;
-Q_DECL_CONSTEXPR quint64 COMMENT_CHAR_PRICE = 1;
+Q_DECL_CONSTEXPR int DEFAULT_MIXIN = 5;
+Q_DECL_CONSTEXPR quint64 COMMENT_CHAR_PRICE = .01;
 
 SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame) {
   m_ui->setupUi(this);
@@ -62,6 +62,7 @@ void SendFrame::addRecipientClicked() {
       if (m_transfers.size() == 1) {
         m_transfers[0]->disableRemoveButton(true);
       }
+
 
       updateFee();
     });

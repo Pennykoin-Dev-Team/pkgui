@@ -32,7 +32,7 @@ private:
 
   Q_SLOT void copyAddress();
   Q_SLOT void copyKey();
-  Q_SLOT void showKeyClicked();
+
 };
 
 }

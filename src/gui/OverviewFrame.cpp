@@ -10,9 +10,13 @@
 #include "TransactionFrame.h"
 #include "RecentTransactionsModel.h"
 #include "WalletAdapter.h"
-
+#include <QFont>
+#include <QFontDatabase>
 #include "ui_overviewframe.h"
-
+#include <QClipboard>
+#include <QNetworkReply>
+#include <QStringList>
+#include <QUrl>
 namespace WalletGui {
 
 class RecentTransactionsDelegate : public QStyledItemDelegate {
@@ -53,6 +57,7 @@ OverviewFrame::OverviewFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::O
     Qt::QueuedConnection);
   connect(m_transactionModel.data(), &QAbstractItemModel::rowsInserted, this, &OverviewFrame::transactionsInserted);
   connect(m_transactionModel.data(), &QAbstractItemModel::layoutChanged, this, &OverviewFrame::layoutChanged);
+
 
   m_ui->m_tickerLabel1->setText(CurrencyAdapter::instance().getCurrencyTicker().toUpper());
   m_ui->m_tickerLabel2->setText(CurrencyAdapter::instance().getCurrencyTicker().toUpper());

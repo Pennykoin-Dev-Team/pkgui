@@ -1,0 +1,9 @@
+rebased to orig wallet xdn port
+modified appearance & features
+added donation box
+added paymentID generator
+add update nag
+more graphics
+comfirmation dialog on deposit & password change 
+lots of language/ui changes
+revamped "receive" screen to just list keys
