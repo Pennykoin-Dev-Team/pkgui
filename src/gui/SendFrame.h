@@ -28,6 +28,7 @@ public:
   ~SendFrame();
 
   void setAddress(const QString& _address);
+    void setPaymentId(const QString& _paymendId);  
 
 private:
   QScopedPointer<Ui::SendFrame> m_ui;
@@ -41,7 +42,6 @@ private:
   Q_SLOT void addRecipientClicked();
   Q_SLOT void clearAllClicked();
    Q_SLOT void generatePaymentIdClicked();
-  Q_SLOT void mixinValueChanged(int _value);
   Q_SLOT void sendClicked();
 };
 

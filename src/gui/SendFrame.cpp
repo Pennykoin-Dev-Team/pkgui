@@ -4,21 +4,39 @@
 #include "MainWindow.h"
 #include "NodeAdapter.h"
 #include "SendFrame.h"
+
 #include "TransferFrame.h"
 #include "WalletAdapter.h"
 #include "WalletEvents.h"
-#include <QMessageBox>
+#include <Common/Base58.h>
+#include <CryptoNoteCore/CryptoNoteTools.h>
+#include <Common/Util.h>
+#include <Common/Base58.h>
+#include "Common/StringTools.h"
+#include "Common/CommandLine.h"
+#include "CryptoNoteCore/CryptoNoteFormatUtils.h"
+#include "CryptoNoteCore/Account.h"
+#include "crypto/hash.h"
+#include "CryptoNoteCore/CryptoNoteBasic.h"
+#include "CryptoNoteCore/CryptoNoteBasicImpl.h"
+#include "WalletLegacy/WalletHelper.h"
+#include "Common/SignalHandler.h"
+#include "Common/PathTools.h"
+#include "Common/Util.h"
+#include "CryptoNoteCore/CryptoNoteFormatUtils.h"
+#include "CryptoNoteProtocol/CryptoNoteProtocolHandler.h"
+
 #include "ui_sendframe.h"
 
 namespace WalletGui {
 
-Q_DECL_CONSTEXPR int DEFAULT_MIXIN = 5;
-Q_DECL_CONSTEXPR quint64 COMMENT_CHAR_PRICE = .01;
+Q_DECL_CONSTEXPR int DEFAULT_MIXIN = 3;
+Q_DECL_CONSTEXPR quint64 COMMENT_CHAR_PRICE = 10;
 
 SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame) {
   m_ui->setupUi(this);
   clearAllClicked();
-  m_ui->m_mixinSlider->setValue(DEFAULT_MIXIN);
+  
 
   connect(&WalletAdapter::instance(), &WalletAdapter::walletSendTransactionCompletedSignal, this, &SendFrame::sendTransactionCompleted,
     Qt::QueuedConnection);
@@ -27,7 +45,7 @@ SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame
 
   m_ui->m_tickerLabel->setText(CurrencyAdapter::instance().getCurrencyTicker().toUpper());
   m_ui->m_feeSpin->setSuffix(" " + CurrencyAdapter::instance().getCurrencyTicker().toUpper());
-    m_ui->m_donateSpin->setSuffix(" " + CurrencyAdapter::instance().getCurrencyTicker().toUpper());
+  m_ui->m_donateSpin->setSuffix(" " + CurrencyAdapter::instance().getCurrencyTicker().toUpper());
   m_ui->m_feeSpin->setMinimum(CurrencyAdapter::instance().formatAmount(CurrencyAdapter::instance().getMinimumFee()).toDouble());
 }
 
@@ -44,6 +62,10 @@ void SendFrame::setAddress(const QString& _address) {
 
   addRecipientClicked();
   m_transfers.last()->setAddress(_address);
+}
+
+void SendFrame::setPaymentId(const QString& _paymentId) {
+  m_ui->m_paymentIdEdit->setText(_paymentId);
 }
 
 void SendFrame::addRecipientClicked() {
@@ -63,7 +85,6 @@ void SendFrame::addRecipientClicked() {
         m_transfers[0]->disableRemoveButton(true);
       }
 
-
       updateFee();
     });
 }
@@ -76,65 +97,149 @@ void SendFrame::clearAllClicked() {
   m_transfers.clear();
   addRecipientClicked();
   m_ui->m_paymentIdEdit->clear();
-  m_ui->m_mixinSlider->setValue(DEFAULT_MIXIN);
   m_ui->m_feeSpin->setValue(m_ui->m_feeSpin->minimum());
 }
+void SendFrame::insertPaymentID(QString _paymentid) {
+    m_ui->m_paymentIdEdit->setText(_paymentid);
+}
+
+//-----------------------------------------------------------------------------------------
 
 void SendFrame::sendClicked() {
+  // this is what is triggered when you send funds
   QVector<CryptoNote::WalletLegacyTransfer> walletTransfers;
+  CryptoNote::WalletLegacyTransfer walletTransfer;
   QVector<CryptoNote::TransactionMessage> walletMessages;
-  Q_FOREACH (TransferFrame * transfer, m_transfers) {
-    QString address = transfer->getAddress();
-    if (!CurrencyAdapter::instance().validateAddress(address)) {
-      QCoreApplication::postEvent(&MainWindow::instance(), new ShowMessageEvent(tr("Invalid recipient address"), QtCriticalMsg));
+  bool isIntegrated = false;
+  std::string paymentID;
+  std::string spendPublicKey;
+  std::string viewPublicKey;
+  QByteArray paymentIdString;
+  // run through each of the transactions in the frame
+  // the send tab allows multiple transaction at once
+  Q_FOREACH (TransferFrame * transfer, m_transfers) 
+  {
+    QString address = transfer->getAddress();   
+    QString int_address = transfer->getAddress();   
+
+    /* integrated address check */
+    if (address.toStdString().length() == 185) 
+    {
+      isIntegrated = true;
+
+      const uint64_t paymentIDLen = 64;
+
+      /* extract and commit the payment id to extra */
+      std::string decoded;
+      uint64_t prefix;
+      if (Tools::Base58::decode_addr(address.toStdString(), prefix, decoded)) 
+      {
+        
+        paymentID = decoded.substr(0, paymentIDLen);
+      }
+
+    /* create the address from the public keys */
+    std::string keys = decoded.substr(paymentIDLen, std::string::npos);
+    CryptoNote::AccountPublicAddress addr;
+    CryptoNote::BinaryArray ba = Common::asBinaryArray(keys);
+
+    CryptoNote::fromBinaryArray(addr, ba);
+
+
+    std::string address_string = CryptoNote::getAccountAddressAsStr(CryptoNote::parameters::CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX, 
+                                                            addr);   
+    address = QString::fromStdString(address_string);
+    }
+
+    if (!CurrencyAdapter::instance().validateAddress(address)) 
+    {
+      QCoreApplication::postEvent(&MainWindow::instance(), 
+                        new ShowMessageEvent(tr("Invalid recipient address"), 
+                        QtCriticalMsg));
       return;
     }
 
-    CryptoNote::WalletLegacyTransfer walletTransfer;
+    // get the transaction details
     walletTransfer.address = address.toStdString();
     uint64_t amount = CurrencyAdapter::instance().parseAmount(transfer->getAmountString());
     walletTransfer.amount = amount;
     walletTransfers.push_back(walletTransfer);
     QString label = transfer->getLabel();
-      if (m_ui->donateCheckBox->isChecked()) {
+ // Dev donation
+  if (m_ui->donateCheckBox->isChecked()) {
       CryptoNote::WalletLegacyTransfer walletTransfer;
-      QString donate_address = "PkQyEgdjkjbGssVere1rLdcBFzxMromXz3hcvyPvdHoHRF7D6BQXodBc9S7M9zgqA1EtjiA8B96N1FGpfr3kZ5bn1KYuHHkWJ";
+      QString donate_address = "PkRUiBSt3X9ABbqSqCuRmiPLiwbqFTDXoYRkr12KtBGCNfQaGFuf1vcfN6j5mGcavZbhDgxkDaUhuQ1rotwcUW9u2y8AnHhSS";
       walletTransfer.address = donate_address.toStdString();
       walletTransfer.amount = CurrencyAdapter::instance().parseAmount(m_ui->m_donateSpin->cleanText());
       walletTransfers.push_back(walletTransfer);
   }
 
-    if (!label.isEmpty()) {
-      AddressBookModel::instance().addAddress(label, address);
+    /* payment id */
+    if (isIntegrated == true) {
+        m_ui->m_paymentIdEdit->setText(QString::fromStdString(paymentID));
     }
 
-    QString comment = transfer->getComment();
-    if (!comment.isEmpty()) {
-      walletMessages.append(CryptoNote::TransactionMessage{comment.toStdString(), address.toStdString()});
-    }
-  }
+    paymentIdString = m_ui->m_paymentIdEdit->text().toUtf8();
+    m_ui->m_paymentIdEdit->setText("");
 
-  quint64 fee = CurrencyAdapter::instance().parseAmount(m_ui->m_feeSpin->cleanText());
-  if (fee < CurrencyAdapter::instance().getMinimumFee()) {
-    QCoreApplication::postEvent(&MainWindow::instance(), new ShowMessageEvent(tr("Incorrect fee value"), QtCriticalMsg));
-    return;
-  }
-
-  if (WalletAdapter::instance().isOpen()) {
-    QByteArray paymentIdString = m_ui->m_paymentIdEdit->text().toUtf8();
-    if (!isValidPaymentId(paymentIdString)) {
-      QCoreApplication::postEvent(&MainWindow::instance(), new ShowMessageEvent(tr("Invalid payment ID"), QtCriticalMsg));
+    // check payment id validity, or about
+    if (!isValidPaymentId(paymentIdString)) 
+    {
+      QCoreApplication::postEvent(&MainWindow::instance(), 
+                                  new ShowMessageEvent(tr("Invalid payment ID"), 
+                                  QtCriticalMsg));
       return;
     }
 
-    WalletAdapter::instance().sendTransaction(walletTransfers, fee, m_ui->m_paymentIdEdit->text(), m_ui->m_mixinSlider->value(),
-      walletMessages);
+    // add to the address book if a label is given
+    if (!label.isEmpty()) 
+    {
+      
+      if (isIntegrated == true) 
+      {
+
+        AddressBookModel::instance().addAddress(label, int_address);
+      }
+      else 
+      {
+
+        AddressBookModel::instance().addAddress(label, address);
+      }
+    }
+
+    // add the comment to the transaction
+    QString comment = transfer->getComment();
+    if (!comment.isEmpty()) {
+      walletMessages.append(CryptoNote::TransactionMessage{comment.toStdString(), 
+                            address.toStdString()});
+    }
+  }
+
+    // incorrect fee, abort
+    quint64 fee = CurrencyAdapter::instance().parseAmount(m_ui->m_feeSpin->cleanText());
+    if (fee < CurrencyAdapter::instance().getMinimumFee()) 
+    {
+      QCoreApplication::postEvent(&MainWindow::instance(), 
+                                  new ShowMessageEvent(tr("Incorrect fee value"), 
+                                  QtCriticalMsg));
+      return;
+    }
+
+  // if the wallet is open we proceed
+  if (WalletAdapter::instance().isOpen()) 
+  {    
+
+    // send the transaction
+    WalletAdapter::instance().sendTransaction(walletTransfers,
+                                              fee, 
+                                              paymentIdString, 
+                                              DEFAULT_MIXIN,
+                                              walletMessages);
   }
 }
 
-void SendFrame::mixinValueChanged(int _value) {
-  m_ui->m_mixinEdit->setText(QString::number(_value));
-}
+//----------------------------------------------------------------------------------------------
+
 
 void SendFrame::sendTransactionCompleted(CryptoNote::TransactionId _id, bool _error, const QString& _errorText) {
   Q_UNUSED(_id);
@@ -148,9 +253,7 @@ void SendFrame::sendTransactionCompleted(CryptoNote::TransactionId _id, bool _er
 void SendFrame::walletActualBalanceUpdated(quint64 _balance) {
   m_ui->m_balanceLabel->setText(CurrencyAdapter::instance().formatAmount(_balance));
 }
-void SendFrame::insertPaymentID(QString _paymentid) {
-    m_ui->m_paymentIdEdit->setText(_paymentid);
-}
+
 void SendFrame::updateFee() {
   quint64 commentsFee = 0;
   Q_FOREACH (const auto& transfer, m_transfers) {
@@ -169,7 +272,11 @@ bool SendFrame::isValidPaymentId(const QByteArray& _paymentIdString) {
   QByteArray paymentId = QByteArray::fromHex(_paymentIdString);
   return (paymentId.size() == sizeof(Crypto::Hash)) && (_paymentIdString.toUpper() == paymentId.toHex().toUpper());
 }
+
+
+
 void SendFrame::generatePaymentIdClicked() {
   SendFrame::insertPaymentID(CurrencyAdapter::instance().generatePaymentId());
 }
+
 }
