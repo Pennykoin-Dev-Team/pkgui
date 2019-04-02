@@ -1,5 +1,5 @@
 
 set(CN_PROJECT_NAME "KoinPurse")
-set(CN_CURRENCY_DISPLAY_NAME "Pennykoin")
+set(CN_CURRENCY_DISPLAY_NAME "pennykoin")
 set(CN_CURRENCY_TICKER "Pk")
-set(CN_VERSION 3.5.3)
+set(CN_VERSION 3.6.0)

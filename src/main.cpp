@@ -1,3 +1,10 @@
+// Copyright (c) 2011-2017 The Cryptonote developers
+// Copyright (c) 2014-2017 XDN developers
+// Copyright (c) 2016-2017 BXC developers
+// Copyright (c) 2017 Royalties developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QLocale>
@@ -5,7 +12,7 @@
 #include <QMessageBox>
 #include <QSplashScreen>
 #include <QStyleFactory>
-#include <QGuiApplication>
+
 #include "CommandLineParser.h"
 #include "CurrencyAdapter.h"
 #include "LoggerAdapter.h"
@@ -23,14 +30,14 @@ using namespace WalletGui;
 
 int main(int argc, char* argv[]) {
   QApplication app(argc, argv);
-  app.setApplicationName("Penny GUI");
+  app.setApplicationName("Royaltieswallet");
   app.setApplicationVersion(Settings::instance().getVersion());
   app.setQuitOnLastWindowClosed(false);
- #ifndef Q_OS_MAC
+
+#ifndef Q_OS_MAC
   QApplication::setStyle(QStyleFactory::create("Fusion"));
 #endif
 
-QGuiApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
   CommandLineParser cmdLineParser(nullptr);
   Settings::instance().setCommandLineParser(&cmdLineParser);
   bool cmdLineParseResult = cmdLineParser.process(app.arguments());
@@ -64,19 +71,19 @@ QGuiApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
   SignalHandler::instance().init();
   QObject::connect(&SignalHandler::instance(), &SignalHandler::quitSignal, &app, &QApplication::quit);
 
-  QSplashScreen* splash = new QSplashScreen(QPixmap(":images/splash"), /*Qt::WindowStaysOnTopHint |*/ Qt::X11BypassWindowManagerHint);
+  QSplashScreen* splash = new QSplashScreen(QPixmap(":images/splash"), Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint);
   if (!splash->isVisible()) {
     splash->show();
   }
 
-  splash->showMessage(QObject::tr("Accessing network."), Qt::AlignLeft | Qt::AlignBottom, Qt::black);
-
+  splash->showMessage(QObject::tr("Loading blockchain..."), Qt::AlignLeft | Qt::AlignBottom, Qt::black);
   app.processEvents();
   qRegisterMetaType<CryptoNote::TransactionId>("CryptoNote::TransactionId");
   qRegisterMetaType<quintptr>("quintptr");
   if (!NodeAdapter::instance().init()) {
     return 0;
   }
+
   splash->finish(&MainWindow::instance());
       Updater d;
       d.checkForUpdate();
