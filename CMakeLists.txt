@@ -10,7 +10,7 @@ WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 OUTPUT_VARIABLE GIT_REVISION)
 
 set(CRYPTONOTE_LIB cryptonote)
-set (CMAKE_PREFIX_PATH "C://Qt//Qt5.7.1//5.7//msvc2015_64")
+set (CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.7.1\\5.7\\msvc2013_64\\")
 
 include_directories(${CMAKE_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -87,7 +87,6 @@ set(CRYPTONOTE_SOURCES
   pkcli/src/crypto/keccak.c
   pkcli/src/crypto/oaes_lib.c
   pkcli/src/crypto/random.c
-  pkcli/src/crypto/aesb.c  
   pkcli/src/crypto/skein.c
   pkcli/src/crypto/slow-hash.c
   pkcli/src/crypto/slow-hash.cpp
